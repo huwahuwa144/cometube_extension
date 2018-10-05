@@ -3,10 +3,10 @@
 // $(function(){
 //   $('body').css('background-color','#ff0000');
 // });
-
-chrome.browserAction.onClicked.addListener(function(tab) {
-  chrome.tabs.create({'url': 'index.html' });
-});
+//
+// chrome.browserAction.onClicked.addListener(function(tab) {
+//   chrome.tabs.create({'url': 'index.html' });
+// });
 
 
 // var url = chrome.extension.getURL('index.html');

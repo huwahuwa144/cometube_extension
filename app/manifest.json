@@ -27,7 +27,6 @@
         "https://www.youtube.com/*"
       ],
       "js": [
-        "bower_components/jquery/dist/jquery.min.js",
         "scripts/contentscript.js"
       ],
       "run_at": "document_end",
@@ -35,9 +34,9 @@
     }
   ],
   "oauth2": {
-        "client_id": "553103416662-0buae8hbv5egglo6q0krh6vi1ou9v6bs.apps.googleusercontent.com",
+        "client_id": "553103416662-9htgkrebru8kh8n0h4omdp7970p4qlon.apps.googleusercontent.com",
         "scopes": [
-            "https://www.googleapis.com/auth/userinfo.email"
+            "https://www.googleapis.com/auth/youtube"
         ]
     }
 }

@@ -10,15 +10,16 @@
   },
   "default_locale": "en",
   "browser_action": {
-    "default_title": "YouNise"
+    "default_title": "YouNise",
+    "default_popup": "popup.html"
   },
   "background": {
-    "scripts": [
-      "scripts/background.js"
-    ],
+    "page": "background.html",
     "persistent": false
   },
+  "content_security_policy": "script-src 'self' https://apis.google.com; object-src 'self' 'sha256-zwOoYvvXKhC370uVtVT++lPX40zhVhOUY71guExntTk='",
   "permissions": [
+    "webview",
     "identity"
   ],
   "content_scripts": [
@@ -36,7 +37,8 @@
   "oauth2": {
         "client_id": "553103416662-9htgkrebru8kh8n0h4omdp7970p4qlon.apps.googleusercontent.com",
         "scopes": [
-            "https://www.googleapis.com/auth/youtube"
+            "https://www.googleapis.com/auth/youtube",
+            "https://www.googleapis.com/auth/youtube.force-ssl"
         ]
     }
 }

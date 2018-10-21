@@ -23,7 +23,14 @@ function commentThreadsApi(v,t,n,callback) {
   });
 }
 
-
+/**
+ * [getAllComments description]
+ * @param  {[type]} json [commentInfo]
+ * @param  {[type]} n    [nextPageToken]
+ * @param  {[type]} v    [videoId]
+ * @param  {[type]} t    [access_token]
+ * @return {[type]}      [description]
+ */
 function getAllComments(json,n,v,t){
     console.log('response:', json);
     console.log(nextPageToken);
@@ -34,18 +41,34 @@ function getAllComments(json,n,v,t){
     console.log(allComments[4]);
 }
 
-chrome.identity.getAuthToken({
-  interactive: true
-}, function(token) {
-  if (chrome.runtime.lastError) {
-    alert(chrome.runtime.lastError.message);
-    return;
-  }
-  var x = new XMLHttpRequest();
-  x.open('GET', 'https://www.googleapis.com/oauth2/v1/tokeninfo?alt=json&access_token=' + token);
-  x.onload = function() {
-    commentThreadsApi('OM1c-fc93xY',token,nextPageToken,getAllComments);
-    console.log(nextPageToken);
-  };
-  x.send();
-});
+/**
+ * [startExecute description]
+ * @return {[type]} [description]
+ */
+function startExecute(){
+  var currentTab = ''
+  chrome.tabs.getSelected(null, function(tab) {
+      currentTab = tab.url;
+      var id = /[/?=]([-\w]{11})/.exec(tab.url);
+      console.log(id);
+      alert(tab.title + '\n' + tab.url);
+      if(id !=null){
+        chrome.identity.getAuthToken({
+          interactive: true
+        }, function(token) {
+          if (chrome.runtime.lastError) {
+            alert(chrome.runtime.lastError.message);
+            return;
+          }
+          var x = new XMLHttpRequest();
+          x.open('GET', 'https://www.googleapis.com/oauth2/v1/tokeninfo?alt=json&access_token=' + token);
+          x.onload = function() {
+            commentThreadsApi(id[1],token,nextPageToken,getAllComments);
+            console.log(nextPageToken);
+          };
+          x.send();
+        });
+      }
+  });
+}
+chrome.browserAction.onClicked.addListener(startExecute);

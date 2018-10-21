@@ -10,8 +10,7 @@
   },
   "default_locale": "en",
   "browser_action": {
-    "default_title": "YouNise",
-    "default_popup": "popup.html"
+    "default_title": "YouNise"
   },
   "background": {
     "page": "background.html",
@@ -20,7 +19,8 @@
   "content_security_policy": "script-src 'self' https://apis.google.com; object-src 'self' 'sha256-zwOoYvvXKhC370uVtVT++lPX40zhVhOUY71guExntTk='",
   "permissions": [
     "webview",
-    "identity"
+    "identity",
+    "tabs"
   ],
   "content_scripts": [
     {

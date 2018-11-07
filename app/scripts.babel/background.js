@@ -51,7 +51,6 @@ function startExecute(){
       currentTab = tab.url;
       var id = /[/?=]([-\w]{11})/.exec(tab.url);
       console.log(id);
-      alert(tab.title + '\n' + tab.url);
       if(id !=null){
         chrome.identity.getAuthToken({
           interactive: true
@@ -66,9 +65,15 @@ function startExecute(){
             commentThreadsApi(id[1],token,nextPageToken,getAllComments);
             console.log(nextPageToken);
           };
+          console.log(allComments[0]);
           x.send();
         });
       }
   });
 }
+
+function commentListSet(json){
+
+}
+
 chrome.browserAction.onClicked.addListener(startExecute);

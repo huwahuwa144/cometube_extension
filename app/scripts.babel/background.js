@@ -45,6 +45,7 @@ function getAllComments(json,n,v,t){
  * [startExecute description]
  * @return {[type]} [description]
  */
+ //
 function startExecute(){
   var currentTab = ''
   chrome.tabs.getSelected(null, function(tab) {

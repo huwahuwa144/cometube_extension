@@ -28,7 +28,8 @@
         "https://www.youtube.com/*"
       ],
       "js": [
-        "scripts/contentscript.js"
+        "scripts/contentscript.js",
+        "scripts/background.js"
       ],
       "run_at": "document_end",
       "all_frames": false

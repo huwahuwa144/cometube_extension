@@ -29,7 +29,11 @@
       ],
       "js": [
         "scripts/contentscript.js",
-        "scripts/background.js"
+        "scripts/background.js",
+        "scripts/jquery-3.3.1.slim.min.js",
+        "scripts/popper.min.js",
+        "scripts/swiper.min.js",
+        "scripts/bootstrap.min.js"
       ],
       "run_at": "document_end",
       "all_frames": false

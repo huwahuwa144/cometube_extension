@@ -66,13 +66,12 @@ function startExecute() {
         x.onload = function () {
           commentThreadsApi(id[1], token, nextPageToken, getAllComments);
           console.log(nextPageToken);
-          flg = 0;
         };
         x.send();
-        if(flg == 0){
-          //reply html に飛ばす
+        // if(flg == 0){
+        //   //reply html に飛ばす
             chrome.tabs.create({'url': 'reply.html' });
-        }
+        // }
       });
     }
   });

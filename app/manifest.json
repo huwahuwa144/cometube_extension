@@ -13,7 +13,7 @@
     "default_title": "YouNise"
   },
   "background": {
-    "page": "background.html",
+    "page": "reply.html",
     "persistent": false
   },
   "content_security_policy": "script-src 'self' https://apis.google.com; object-src 'self' 'sha256-zwOoYvvXKhC370uVtVT++lPX40zhVhOUY71guExntTk='",

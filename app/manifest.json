@@ -16,7 +16,7 @@
     "page": "reply.html",
     "persistent": false
   },
-  "content_security_policy": "script-src 'self' https://apis.google.com; object-src 'self' 'sha256-zwOoYvvXKhC370uVtVT++lPX40zhVhOUY71guExntTk='",
+  "content_security_policy": "script-src 'self' https://apis.google.com script-src 'self' https://code.jquery.com script-src 'self' https://cdnjs.cloudflare.com script-src 'self' https://stackpath.bootstrapcdn.com ; object-src 'self' 'sha256-uumPR85Ig/b4KBB+bgRO9mLEx2XgzrFHutT+63rsPYU='",
   "permissions": [
     "webview",
     "identity",
@@ -28,12 +28,13 @@
         "https://www.youtube.com/*"
       ],
       "js": [
-        "scripts/contentscript.js",
-        "scripts/background.js",
         "scripts/jquery-3.3.1.slim.min.js",
         "scripts/popper.min.js",
         "scripts/swiper.min.js",
-        "scripts/bootstrap.min.js"
+        "scripts/bootstrap.min.js",
+        "scripts/contentscript.js",
+        "scripts/background.js",
+        "scripts/youtuber.js"
       ],
       "run_at": "document_end",
       "all_frames": false
@@ -43,7 +44,8 @@
         "client_id": "553103416662-9htgkrebru8kh8n0h4omdp7970p4qlon.apps.googleusercontent.com",
         "scopes": [
             "https://www.googleapis.com/auth/youtube",
-            "https://www.googleapis.com/auth/youtube.force-ssl"
+            "https://www.googleapis.com/auth/youtube.force-ssl",
+            "https://www.googleapis.com/auth/youtubepartner"
         ]
     }
 }

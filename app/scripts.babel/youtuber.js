@@ -77,12 +77,13 @@ function getAllComments(json, n, v, t) {
     commentThreadsApi(v, t, n, getAllComments);
   }else{
     document.getElementById('movieTitle').innerText = title;
-		for(){
-
+		for(let i = 0 ;i < allComments.length;i++){
+			console.log(allComments[i]);
+			for(let j = 0;j < 1;i++){
+					$('<div class="swiper-slide"><div class="list-group"><a href="#" class="list-group-item list-group-item-action flex-column align-items-start">	<div class="d-flex w-100 justify-content-between"><img class="d-block img-fluid rounded-circle float-left" src="https://pingendo.com/assets/photos/wireframe/photo-1.jpg" style="	width: 80px;	height: 80px;">	<h2 class="mb-1 flex-row justify-content-start align-items-end flex-grow-1 d-flex mx-2" style="">ユーザー名 </h2> <small class="text-muted">コントの時間表示</small></div><h3 class="my-2">ここにyoutubeのコメント</h3></a></div></div>').appendTo('#swiper-wrapper-id');
+			}
 		}
-		$('<div class="swiper-slide"><div class="list-group"><a href="#" class="list-group-item list-group-item-action flex-column align-items-start">	<div class="d-flex w-100 justify-content-between"><img class="d-block img-fluid rounded-circle float-left" src="https://pingendo.com/assets/photos/wireframe/photo-1.jpg" style="	width: 80px;	height: 80px;">	<h2 class="mb-1 flex-row justify-content-start align-items-end flex-grow-1 d-flex mx-2" style="">ユーザー名 </h2> <small class="text-muted">コントの時間表示</small></div><h3 class="my-2">ここにyoutubeのコメント</h3></a></div></div>').appendTo('#swiper-wrapper-id');
     console.log(title);
-    console.log(allComments[0]);
   }
 }
 

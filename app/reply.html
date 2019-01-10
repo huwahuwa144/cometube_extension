@@ -5,9 +5,9 @@
   <meta charset="utf-8">
   <meta name="viewport" content="width=device-width, initial-scale=1">
   <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/4.7.0/css/font-awesome.min.css" type="text/css">
-  <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/Swiper/4.4.1/css/swiper.min.css">
+  <!-- <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/Swiper/4.4.1/css/swiper.min.css"> -->
   <link rel="stylesheet" href="./css/theme.css" type="text/css">
-  <script src="https://apis.google.com/js/api.js" onload="commentThreadsApi"></script>
+  <script src="https://apis.google.com/js/api.js"></script>
   <script src="./scripts/background.js"></script>
   <script src="./scripts/youtuber.js"></script>
 </head>
@@ -43,13 +43,9 @@
             <div class="card-header"> チャンネル名 </div>
             <div class="card-body shadow-sm">
               <h4 id = "movieTitle">動画タイトル</h4>
-              <h6 class="text-muted">コメント数</h6>
+              <h6 id="comment-count">コメント数</h6>
               <div class="swiper-container">
                 <div id="swiper-wrapper">
-                  <div class="swiper-slide"><div class="list-group"><a href="#" class="list-group-item list-group-item-action flex-column align-items-start">	<div class="d-flex w-100 justify-content-between"><img class="d-block img-fluid rounded-circle float-left" src="https://pingendo.com/assets/photos/wireframe/photo-1.jpg" style="	width: 80px;	height: 80px;">	<h2 class="mb-1 flex-row justify-content-start align-items-end flex-grow-1 d-flex mx-2" style="">ユーザー名 </h2>
-                    <small class="text-muted">コントの時間表示</small></div><h3 class="my-2">ここにyoutubeのコメント</h3></a></div></div>
-                    <div class="swiper-slide"><div class="list-group"><a href="#" class="list-group-item list-group-item-action flex-column align-items-start">	<div class="d-flex w-100 justify-content-between"><img class="d-block img-fluid rounded-circle float-left" src="https://pingendo.com/assets/photos/wireframe/photo-1.jpg" style="	width: 80px;	height: 80px;">	<h2 class="mb-1 flex-row justify-content-start align-items-end flex-grow-1 d-flex mx-2" style="">ユーザー名 </h2>
-                      <small class="text-muted">コントの時間表示</small></div><h3 class="my-2">ここにyoutubeのコメント</h3></a></div></div>
                 </div>
                 <div class="swiper-pagination"></div>
                 <div class="swiper-button-next"></div>
@@ -58,7 +54,8 @@
           </div>
           </div>
           <form class="form-inline d-flex justify-content-center">
-          </form><textarea class="form-control" id="form35" rows="3" placeholder="返信内容"></textarea>
+          </form>
+          <form><textarea class="form-control" id="form35" rows="3" placeholder="返信内容" required></textarea>
           <div class="input-group">
             <div class="input-group-append"> </div>
           </div>
@@ -67,6 +64,8 @@
             <div class="col-md-4" style="transition: all 0.25s;"><button type="submit" class="btn btn-outline-primary btn-block my-1 shadow-sm">送信</button></div>
             <div class="d-flex justify-content-end col-md-4 " style="transition: all 0.25s;"><a href="#" class="btn btn-outline-primary my-1 active">💛</a></div>
           </div>
+        </form>
+        <button id="next-comment">次へ</button>
         </div>
         <div class="col-md-4" style="">
           <div class="tab-content mt-2">

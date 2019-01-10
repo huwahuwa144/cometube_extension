@@ -41,7 +41,9 @@ chrome.identity.getAuthToken({
   x.onload = function () {
     commentThreadsApi(id, token, nextPageToken, getAllComments);
   };
-  x.onloadend = function () {};
+  x.onloadend = function () {
+    // $('#fakeLoader').hide();
+  };
   x.send();
 });
 
@@ -60,6 +62,7 @@ function getAllComments(json, n, v, t) {
   if ('nextPageToken' in json) {
     commentThreadsApi(v, t, n, getAllComments);
   } else {
+    stopload();
     document.getElementById('movieTitle').innerText = title;
     userIcon = allComments[0].items[0].snippet.topLevelComment.snippet.authorProfileImageUrl;
     userName = allComments[0].items[0].snippet.topLevelComment.snippet.authorDisplayName;
@@ -98,6 +101,7 @@ function commentThreadsApi(v, t, n, callback) {
 }
 
 function commentSend() {
+  document.getElementById('send-click').disabled = 'disabled';
   console.log(inputText);
   gapi.client.load('youtube', 'v3', function () {
     var request = gapi.client.youtube.comments.insert({
@@ -111,6 +115,7 @@ function commentSend() {
     });
     request.execute(function(response){
       console.log(response);
+      document.getElementById('send-click').disabled = '';
     })
   });
 }
@@ -148,3 +153,24 @@ document.addEventListener('DOMContentLoaded',function(){
 function print(){
   inputText = document.getElementById('form35').value;
 }
+
+
+//ローディング
+$(function() {
+  var h = $(window).height();
+
+  $('#wrap').css('display','none');
+  $('#loader-bg ,#loader').height(h).css('display','block');
+});
+
+
+//10秒たったら強制的にロード画面を非表示
+$(function(){
+  setTimeout('stopload()',30000);
+});
+
+function stopload(){
+  $('#wrap').css('display','block');
+  $('#loader-bg').delay(900).fadeOut(800);
+  $('#loader').delay(600).fadeOut(300);
+};

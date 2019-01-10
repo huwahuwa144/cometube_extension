@@ -28,7 +28,7 @@
         "https://www.youtube.com/*"
       ],
       "js": [
-        "scripts/jquery-3.3.1.slim.min.js",
+        "scripts/jquery-1.11.1.min.js",
         "scripts/popper.min.js",
         "scripts/swiper.min.js",
         "scripts/bootstrap.min.js",

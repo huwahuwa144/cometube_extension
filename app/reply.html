@@ -7,100 +7,92 @@
   <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/4.7.0/css/font-awesome.min.css" type="text/css">
   <!-- <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/Swiper/4.4.1/css/swiper.min.css"> -->
   <link rel="stylesheet" href="./css/theme.css" type="text/css">
-  <link rel="stylesheet" href="./css/loading.css"/>
+  <link rel="stylesheet" href="./css/loading.css">
+  <link rel="stylesheet" href="./css/toastr.css">
   <script src="https://apis.google.com/js/api.js"></script>
   <script type="text/javascript" src="scripts/jquery-1.11.1.min.js"></script>
   <script type="text/javascript" src="scripts/fakeLoader.js"></script>
+  <script type="text/javascript" src="scripts/toastr.js"></script>
   <script src="./scripts/background.js"></script>
   <script src="./scripts/youtuber.js"></script>
 </head>
 
 <body>
   <div id="loader-bg">
-  <div id="loader">
-    <img src="./images/Preloader_1.gif" width="80" height="80" alt="Now Loading..." />
-    <p>Now Loading...</p>
-  </div>
-</div>
-<div id="wrap">
-  <nav class="navbar navbar-expand-md navbar-light">
-    <div class="container"> <a class="navbar-brand text-primary" href="#">
-        <i class="fa d-inline fa-lg fa-stop-circle"></i>
-        <b> ComeTube</b>
-      </a> <button class="navbar-toggler navbar-toggler-right border-0" type="button" data-toggle="collapse" data-target="#navbar4">
-        <span class="navbar-toggler-icon"></span>
-      </button>
+    <div id="loader">
+      <img src="./images/Preloader_1.gif" width="80" height="80" alt="Now Loading...">
+      <p>Now Loading...</p>
     </div>
-  </nav>
-  <div class="modal" id="modal-setting">
-    <div class="modal-dialog" role="document">
-      <div class="modal-content">
-        <div class="modal-header">
-          <h5 class="modal-title">Modal title</h5> <button type="button" class="close" data-dismiss="modal"> <span>×</span> </button>
-        </div>
-        <div class="modal-body">
-          <p>Modal body text goes here.</p>
-        </div>
-        <div class="modal-footer"> <button type="button" class="btn btn-primary">Save changes</button> <button type="button" class="btn btn-secondary" data-dismiss="modal">Close</button> </div>
+  </div>
+  <div id="wrap">
+    <nav class="navbar navbar-expand-md navbar-light">
+      <div class="container"> <a class="navbar-brand text-primary" href="#">
+          <i class="fa d-inline fa-lg fa-stop-circle"></i>
+          <b id="login-user"> ComeTube</b>
+        </a> <button class="navbar-toggler navbar-toggler-right border-0" type="button" data-toggle="collapse" data-target="#navbar4">
+          <span class="navbar-toggler-icon"></span>
+        </button>
       </div>
-    </div>
-  </div>
-  <div class="py-5 text-center">
-    <div class="container">
-      <div class="row" style="">
-        <div class="mx-auto col-lg-8" style="">
-          <div class="card">
-            <div class="card-header"> チャンネル名 </div>
-            <div class="card-body shadow-sm">
-              <h4 id = "movieTitle">動画タイトル</h4>
-              <h6 id="comment-count">コメント数</h6>
-              <div class="swiper-container">
-                <div id="swiper-wrapper">
+    </nav>
+    <div class="py-5 text-center">
+      <div class="container">
+        <div class="row" style="">
+          <div class="mx-auto col-lg-8" style="">
+            <div class="card">
+              <div class="card-header" id="login-user-name"> ログイン中のユーザ名:エラー </div>
+              <div class="card-body shadow-sm">
+                <h4 id="movieTitle">動画タイトル</h4>
+                <h6 id="comment-count">コメント数</h6>
+                <div class="swiper-container">
+                  <div id="swiper-wrapper">
+                  </div>
+                  <div class="swiper-pagination"></div>
+                  <div class="swiper-button-next"></div>
+                  <div class="swiper-button-prev"></div>
                 </div>
-                <div class="swiper-pagination"></div>
-                <div class="swiper-button-next"></div>
-                <div class="swiper-button-prev"></div>
+              </div>
             </div>
+            <form class="form-inline d-flex justify-content-center">
+            </form>
+            <div class="row">
+              <div class="col-md-6"><button type="button" class="btn btn-block my-1 shadow-sm btn-outline-primary" id="prev-button">戻る</button></div>
+              <div class="col-md-6"><button type="button" class="btn btn-block my-1 shadow-sm btn-outline-primary" id="next-button">次へ</button></div>
+            </div>
+            <form>
+              <textarea class="form-control" id="form35" rows="3"></textarea>
+              <div class="input-group">
+                <div class="input-group-append"> </div>
+              </div>
+              <div class="row">
+                <div class="col-md-4" style="transition: all 0.25s;"></div>
+                <div class="col-md-4" style="transition: all 0.25s;"><button type="button" class="btn btn-block my-1 shadow-sm btn-outline-danger" id="send-click" style="">送信</button></div>
+                <div class="col-md-4" style="transition: all 0.25s;"></div>
+              </div>
+            </form>
           </div>
-          </div>
-          <form class="form-inline d-flex justify-content-center">
-          </form>
-          <form>
-          <textarea class="form-control" id="form35" rows="3"></textarea>
-          <div class="input-group">
-            <div class="input-group-append"> </div>
-          </div>
-          <div class="row">
-            <div class="col-md-4" style="transition: all 0.25s;"></div>
-            <div class="col-md-4" style="transition: all 0.25s;"><button type="button" class="btn btn-outline-primary btn-block my-1 shadow-sm" id="send-click">送信</button></div>
-            <div class="d-flex justify-content-end col-md-4 " style="transition: all 0.25s;"><a href="#" class="btn btn-outline-primary my-1 active">💛</a></div>
-          </div>
-        </form>
-        <button id="next-comment">次へ</button>
-        </div>
-        <div class="col-md-4" style="">
-          <div class="tab-content mt-2">
-            <div class="tab-pane fade show active" id="tabone" role="tabpanel">
-              <ul>
-                <li><a href="#">んちゃあああああす！</a></li>
-                <li><a href="#">ありがとうございます！</a></li>
-                <li><a href="#">なんやそれｗ</a></li>
-              </ul>
+          <div class="col-md-4" style="">
+            <div class="tab-content mt-2">
+              <div class="tab-pane fade show active" id="tabone" role="tabpanel">
+                <ul>
+                  <li id ="come"><a id ="ntya" href="#">んちゃあああああす！</a></li>
+                <li id ="come"><a id ="ari" href="#">ありがとうございます！</a></li>
+                <li id ="come"><a id ="nan" href="#">なんやそれｗ</a></li>
+                </ul>
+              </div>
             </div>
           </div>
         </div>
       </div>
     </div>
-  </div>
   </div>
   <script src="./scripts/swiper-setting.js"></script>
   <!-- <script src="https://code.jquery.com/jquery-1.11.1.min.js" integrity="sha384-q8i/X+965DzO0rT7abK41JStQIAqVgRVzpbzo5smXKp4YfRvH+8abtTE1Pi6jizo" crossorigin="anonymous"></script> -->
   <script src="https://cdnjs.cloudflare.com/ajax/libs/popper.js/1.14.3/umd/popper.min.js" integrity="sha384-ZMP7rVo3mIykV+2+9J3UJ46jBk0WLaUAdn689aCwoqbBJiSnjAK/l8WvCWPIPm49" crossorigin="anonymous"></script>
   <script src="https://stackpath.bootstrapcdn.com/bootstrap/4.1.3/js/bootstrap.min.js" integrity="sha384-ChfqqxuZUCnJSK3+MXmPNIyE6ZbWh2IMqE241rYiqJxyMiZ6OW/JmZQ5stwEULTy" crossorigin="anonymous"></script>
-<!--  -->
-
+  <!--  -->
   <script type="text/javascript" src="scripts/bootstrap.min.js"></script>
   <!-- <script src="./scripts/swiper.js"></script> -->
-  </body>
-<script src="./scripts/client.js"></script>
+  <script src="./scripts/client.js"></script>
+</body>
+
 </html>

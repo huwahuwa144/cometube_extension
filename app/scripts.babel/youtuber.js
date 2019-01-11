@@ -13,6 +13,7 @@ var userComment;
 var userPublishedAt;
 var commentCount = 0;
 var commentCounter = 0;
+var commentCountAll = 0;
 var realCommentId;
 var inputText;
 var s;
@@ -32,6 +33,7 @@ chrome.identity.getAuthToken({
   interactive: true
 }, function (token) {
   tokenResult = token;
+  console.log(token);
   if (chrome.runtime.lastError) {
     alert(chrome.runtime.lastError.message);
     return;
@@ -39,6 +41,7 @@ chrome.identity.getAuthToken({
   var x = new XMLHttpRequest();
   x.open('GET', 'https://www.googleapis.com/oauth2/v1/tokeninfo?alt=json&access_token=' + token);
   x.onload = function () {
+    currentLoginUser();
     commentThreadsApi(id, token, nextPageToken, getAllComments);
   };
   x.onloadend = function () {
@@ -63,6 +66,7 @@ function getAllComments(json, n, v, t) {
     commentThreadsApi(v, t, n, getAllComments);
   } else {
     stopload();
+    $('textarea').focus();
     document.getElementById('movieTitle').innerText = title;
     userIcon = allComments[0].items[0].snippet.topLevelComment.snippet.authorProfileImageUrl;
     userName = allComments[0].items[0].snippet.topLevelComment.snippet.authorDisplayName;
@@ -74,7 +78,8 @@ function getAllComments(json, n, v, t) {
         commentCount+=1;
       }
     }
-    commentCounter = 1;
+    commentCountAll = commentCount;
+    document.getElementById('comment-count').innerText = commentCount;
     $('<div class="swiper-slide"><div class="list-group"><a href="#" class="list-group-item list-group-item-action flex-column align-items-start">	<div class="d-flex w-100 justify-content-between"><img class="d-block img-fluid rounded-circle float-left" src='+ userIcon +' style="	width: 80px;	height: 80px;">	<h2 class="mb-1 flex-row justify-content-start align-items-end flex-grow-1 d-flex mx-2" style="">'+userName+' </h2> <small class="text-muted">'+userPublishedAt+'</small></div><h3 class="my-2">'+userComment+'</h3></a></div></div>').appendTo('#swiper-wrapper');
     console.log(title);
   }
@@ -115,15 +120,18 @@ function commentSend() {
     });
     request.execute(function(response){
       console.log(response);
+      toastr.info('送りました');
       document.getElementById('send-click').disabled = '';
     })
   });
 }
 
 function commentNext(){
+  document.getElementById('send-click').disabled = '';
+  commentCounter+=1;
   var k = Math.floor(commentCounter/20);
   var l = Math.floor(commentCounter%20);
-  if(commentCounter<commentCount){
+  if(commentCounter<commentCountAll){
     userIcon = allComments[k].items[l].snippet.topLevelComment.snippet.authorProfileImageUrl;
     userName = allComments[k].items[l].snippet.topLevelComment.snippet.authorDisplayName;
     userComment = allComments[k].items[l].snippet.topLevelComment.snippet.textDisplay;
@@ -131,28 +139,82 @@ function commentNext(){
     realCommentId = allComments[k].items[l].id;
     document.getElementById('swiper-wrapper').textContent = null;
     $('<div class="swiper-slide"><div class="list-group"><a href="#" class="list-group-item list-group-item-action flex-column align-items-start">	<div class="d-flex w-100 justify-content-between"><img class="d-block img-fluid rounded-circle float-left" src='+ userIcon +' style="	width: 80px;	height: 80px;">	<h2 class="mb-1 flex-row justify-content-start align-items-end flex-grow-1 d-flex mx-2" style="">'+userName+' </h2> <small class="text-muted">'+userPublishedAt+'</small></div><h3 class="my-2">'+userComment+'</h3></a></div></div>').appendTo('#swiper-wrapper');
-    commentCounter+=1;
+    commentCount-=1;
+    document.getElementById('comment-count').innerHTML = commentCount
+  }else{
+    commentCounter = commentCountAll-1;
   }
   console.log(k);
   console.log(l);
 }
 
+function commentPrev(){
+  commentCounter-=1;
+  var k = Math.floor(commentCounter/20);
+  var l = Math.floor(commentCounter%20);
+  if(0 <= commentCounter){
+    userIcon = allComments[k].items[l].snippet.topLevelComment.snippet.authorProfileImageUrl;
+    userName = allComments[k].items[l].snippet.topLevelComment.snippet.authorDisplayName;
+    userComment = allComments[k].items[l].snippet.topLevelComment.snippet.textDisplay;
+    userPublishedAt = allComments[k].items[l].snippet.topLevelComment.snippet.updatedAt;
+    realCommentId = allComments[k].items[l].id;
+    document.getElementById('swiper-wrapper').textContent = null;
+    $('<div class="swiper-slide"><div class="list-group"><a href="#" class="list-group-item list-group-item-action flex-column align-items-start">	<div class="d-flex w-100 justify-content-between"><img class="d-block img-fluid rounded-circle float-left" src='+ userIcon +' style="	width: 80px;	height: 80px;">	<h2 class="mb-1 flex-row justify-content-start align-items-end flex-grow-1 d-flex mx-2" style="">'+userName+' </h2> <small class="text-muted">'+userPublishedAt+'</small></div><h3 class="my-2">'+userComment+'</h3></a></div></div>').appendTo('#swiper-wrapper');
+    commentCount+=1;
+    document.getElementById('comment-count').innerHTML = commentCount
+  }else{
+    commentCounter = 0;
+  }
+}
 
-document.addEventListener('DOMContentLoaded', function() {
-  document.getElementById('next-comment').addEventListener('click', commentNext);
-});
+function currentLoginUser(){
+  gapi.client.load('youtube', 'v3', function () {
+    var request = gapi.client.youtube.channels.list({
+      part:'snippet',
+      access_token:tokenResult,
+      mine:true
+    });
+    request.execute(function(response){
+      document.getElementById('login-user-name').innerHTML = 'ログイン中のユーザ名:'+response.items[0].snippet.title
+    })
+  });
+}
+
 
 document.addEventListener('DOMContentLoaded',function(){
   document.getElementById('send-click').addEventListener('click',commentSend);
-});
+  document.getElementById('next-button').addEventListener('click',commentNext);
+  document.getElementById('prev-button').addEventListener('click',commentPrev);
 
+  });
 document.addEventListener('DOMContentLoaded',function(){
-  document.getElementById('form35').addEventListener('input',print);
-});
+  document.getElementById('ntya').addEventListener('click',function(){
+        var aa = document.getElementById('ntya').textContent;
+        console.log(aa);
+        document.getElementById('form35').innerHTML = aa;
+      });
 
-function print(){
-  inputText = document.getElementById('form35').value;
-}
+      document.getElementById('ari').addEventListener('click',function(){
+        var aa = document.getElementById('ari').textContent;
+        console.log(aa);
+        document.getElementById('form35').innerHTML = aa;
+      });
+
+      document.getElementById('nan').addEventListener('click',function(){
+        var aa = document.getElementById('nan').textContent;
+        console.log(aa);
+        document.getElementById('form35').innerHTML = aa;
+      });
+    });
+// document.addEventListener('DOMContentLoaded',function(){
+//   document.getElementById('form35').addEventListener('input',print);
+// });
+//
+// function print(){
+//   inputText = document.getElementById('form35').value;
+// }
+
+
 
 
 //ローディング
@@ -174,3 +236,21 @@ function stopload(){
   $('#loader-bg').delay(900).fadeOut(800);
   $('#loader').delay(600).fadeOut(300);
 };
+
+$(function($){
+  //←+enter
+  $(window).keydown(function(e){
+    if(event.shiftKey){
+      if(e.keyCode === 37){
+        commentPrev();
+        return false;
+      }else if(e.keyCode === 38 || e.keyCode === 40){
+        alert('←+enter');
+         return false;
+      }else if(e.keyCode === 39){
+        commentNext();
+         return false;
+      }
+    }
+  });
+});

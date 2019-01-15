@@ -17,6 +17,9 @@ var commentCountAll = 0;
 var realCommentId;
 var inputText;
 var s;
+var saveId;
+var loginUserName;
+var dt;
 chrome.runtime.onMessage.addListener(function (request, sender, sendResponse) {
   parseItems = [];
   console.log(sender);
@@ -42,6 +45,7 @@ chrome.identity.getAuthToken({
   x.open('GET', 'https://www.googleapis.com/oauth2/v1/tokeninfo?alt=json&access_token=' + token);
   x.onload = function () {
     currentLoginUser();
+    videoInfo();
     commentThreadsApi(id, token, nextPageToken, getAllComments);
   };
   x.onloadend = function () {
@@ -72,6 +76,7 @@ function getAllComments(json, n, v, t) {
     userName = allComments[0].items[0].snippet.topLevelComment.snippet.authorDisplayName;
     userComment = allComments[0].items[0].snippet.topLevelComment.snippet.textDisplay;
     userPublishedAt = allComments[0].items[0].snippet.topLevelComment.snippet.updatedAt;
+    dt = new Date(userPublishedAt);
     realCommentId = allComments[0].items[0].id;
     for (var i = 0; i < allComments.length; i++) {
       for (var j = 0; j < allComments[i].items.length; j++) {
@@ -119,8 +124,12 @@ function commentSend() {
       }
     });
     request.execute(function(response){
-      console.log(response);
-      toastr.info('送りました');
+      console.log(response.error);
+      if(200 < response.code){
+        toastr.info('送信エラー');
+      }else{
+        toastr.info('送信しました');
+      }
       document.getElementById('send-click').disabled = '';
     })
   });
@@ -128,6 +137,7 @@ function commentSend() {
 
 function commentNext(){
   document.getElementById('send-click').disabled = '';
+  $('textarea').focus();
   commentCounter+=1;
   var k = Math.floor(commentCounter/20);
   var l = Math.floor(commentCounter%20);
@@ -140,7 +150,7 @@ function commentNext(){
     document.getElementById('swiper-wrapper').textContent = null;
     $('<div class="swiper-slide"><div class="list-group"><a href="#" class="list-group-item list-group-item-action flex-column align-items-start">	<div class="d-flex w-100 justify-content-between"><img class="d-block img-fluid rounded-circle float-left" src='+ userIcon +' style="	width: 80px;	height: 80px;">	<h2 class="mb-1 flex-row justify-content-start align-items-end flex-grow-1 d-flex mx-2" style="">'+userName+' </h2> <small class="text-muted">'+userPublishedAt+'</small></div><h3 class="my-2">'+userComment+'</h3></a></div></div>').appendTo('#swiper-wrapper');
     commentCount-=1;
-    document.getElementById('comment-count').innerHTML = commentCount
+    document.getElementById('comment-count').innerHTML = commentCount;
   }else{
     commentCounter = commentCountAll-1;
   }
@@ -150,6 +160,8 @@ function commentNext(){
 
 function commentPrev(){
   commentCounter-=1;
+  document.getElementById('send-click').disabled = '';
+  $('textarea').focus();
   var k = Math.floor(commentCounter/20);
   var l = Math.floor(commentCounter%20);
   if(0 <= commentCounter){
@@ -175,7 +187,21 @@ function currentLoginUser(){
       mine:true
     });
     request.execute(function(response){
-      document.getElementById('login-user-name').innerHTML = 'ログイン中のユーザ名:'+response.items[0].snippet.title
+      loginUserName = response.items[0].snippet.title
+      document.getElementById('login-user-name').innerHTML = 'ログイン中のユーザ名:'+loginUserName;
+    })
+  });
+}
+
+function videoInfo(){
+  gapi.client.load('youtube', 'v3', function () {
+    var request = gapi.client.youtube.videos.list({
+      part:'snippet',
+      access_token:tokenResult,
+      id:id
+    });
+    request.execute(function(response){
+      console.log(response);
     })
   });
 }
@@ -226,7 +252,7 @@ $(function() {
 });
 
 
-//10秒たったら強制的にロード画面を非表示
+//30秒たったら強制的にロード画面を非表示
 $(function(){
   setTimeout('stopload()',30000);
 });
@@ -245,8 +271,8 @@ $(function($){
         commentPrev();
         return false;
       }else if(e.keyCode === 38 || e.keyCode === 40){
-        alert('←+enter');
-         return false;
+        commentSend();
+        return false;
       }else if(e.keyCode === 39){
         commentNext();
          return false;

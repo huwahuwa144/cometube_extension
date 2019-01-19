@@ -486,6 +486,7 @@ function templateAdd(word){
       localStorage.setItem('templateList',JSON.stringify(templateListJson));
       $('#list-group-template').append($('<li class="list-group-item list-group-item-action justify-content-between d-flex flex-row align-items-center"> <a class="navbar-brand2 text-body justify-content-center" href="#">Cras justo odio</a> <span class="badge badge-danger shadow-none border border-danger text-center rounded-top" style="	box-shadow: 0px 0px 0px  black;">☓</span> </li>'));
     }else{
+      console.log(templateListJson.templateList1.length);
       toastr.warning('テンプレート容量オーバーです。一つ削除してください。');
     }
 

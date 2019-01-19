@@ -28,8 +28,19 @@ var player;
 var templateList; //templatejson文字列を格納
 var templateList1 = [];
 var templateList2;
-var templateListJson = {
+var templateListJsonfast = {
   templateList1:templateList1
+};
+var k;
+var l;
+var templateListJson;
+var channelId; //heartぶち込むユーザのid
+var userText;//heartぶち込むユーザの本文
+var heartListJson = {
+  heartList:[{
+    channelId:channelId,
+    text:userText
+  }]
 };
 chrome.runtime.onMessage.addListener(function (request, sender, sendResponse) {
   parseItems = [];
@@ -91,6 +102,7 @@ function getAllComments(json, n, v, t) {
     userName = allComments[0].items[0].snippet.topLevelComment.snippet.authorDisplayName;
     userComment = allComments[0].items[0].snippet.topLevelComment.snippet.textDisplay;
     userPublishedAt = allComments[0].items[0].snippet.topLevelComment.snippet.updatedAt;
+    channelId = allComments[0].items[0].snippet.topLevelComment.snippet.channelId;
     dt = new Date(userPublishedAt);
     userPublishedAt = dt.toLocaleString();
     realCommentId = allComments[0].items[0].id;
@@ -103,13 +115,14 @@ function getAllComments(json, n, v, t) {
     document.getElementById('comment-count').innerText = commentCount+'/'+commentCountAll;
     $('<div class="swiper-slide"><div class="list-group"><div class="list-group-item list-group-item-action flex-column align-items-start">	<div class="d-flex w-100 justify-content-between"><img class="d-block img-fluid rounded-circle float-left" src='+ userIcon +' style="	width: 60px;	height: 60px;">	<h2 class="mb-1 flex-row justify-content-start align-items-end flex-grow-1 d-flex mx-2" style="">'+userName+' </h2> <small class="text-muted">'+userPublishedAt+'</small></div><h3 class="my-2">'+userComment+'</h3></div></div></div>').appendTo('#swiper-wrapper');
     console.log($('#listbox'));
-    var el = document.getElementById('listbox');
-    var sortable = Sortable.create(el, {
-        group: 'hoge',
-        animation: 100
-    });
+    // var el = document.getElementById('listbox');
+    // var sortable = Sortable.create(el, {
+    //     group: 'hoge',
+    //     animation: 100
+    // });
     linkCheck();
     loadPlayer(id,videoSecond);
+    templateReload()
     console.log(title);
   }
 }
@@ -157,6 +170,13 @@ function commentSend() {
         toastr.info('送信エラー');
       }else{
         toastr.info('送信しました');
+        if($('#heart-button').hasClass('btn btn-outline-primary active my-1')){
+          heartListJson.heartList.push({
+            channelId:channelId,
+            text:userComment
+          });
+          localStorage.heartListJson = JSON.stringify(heartListJson);
+        }
         commentNext();
         document.getElementById('form35').value = '';
       }
@@ -173,14 +193,15 @@ function commentNext(){
   document.getElementById('send-click').disabled = '';
   $('textarea').focus();
   commentCounter+=1;
-  var k = Math.floor(commentCounter/20);
-  var l = Math.floor(commentCounter%20);
+  k = Math.floor(commentCounter/20);
+  l = Math.floor(commentCounter%20);
   if(commentCounter<commentCountAll){
     userIcon = allComments[k].items[l].snippet.topLevelComment.snippet.authorProfileImageUrl;
     userName = allComments[k].items[l].snippet.topLevelComment.snippet.authorDisplayName;
     userComment = allComments[k].items[l].snippet.topLevelComment.snippet.textDisplay;
     userPublishedAt = allComments[k].items[l].snippet.topLevelComment.snippet.updatedAt;
     realCommentId = allComments[k].items[l].id;
+    channelId = allComments[k].items[l].snippet.topLevelComment.snippet.channelId;
     dt = new Date(userPublishedAt);
     userPublishedAt = dt.toLocaleString();
     document.getElementById('swiper-wrapper').textContent = null;
@@ -202,14 +223,15 @@ function commentPrev(){
   commentCounter-=1;
   document.getElementById('send-click').disabled = '';
   $('textarea').focus();
-  var k = Math.floor(commentCounter/20);
-  var l = Math.floor(commentCounter%20);
+  k = Math.floor(commentCounter/20);
+  l = Math.floor(commentCounter%20);
   if(0 <= commentCounter){
     userIcon = allComments[k].items[l].snippet.topLevelComment.snippet.authorProfileImageUrl;
     userName = allComments[k].items[l].snippet.topLevelComment.snippet.authorDisplayName;
     userComment = allComments[k].items[l].snippet.topLevelComment.snippet.textDisplay;
     userPublishedAt = allComments[k].items[l].snippet.topLevelComment.snippet.updatedAt;
     realCommentId = allComments[k].items[l].id;
+    channelId = allComments[k].items[l].snippet.topLevelComment.snippet.channelId;
     dt = new Date(userPublishedAt);
     userPublishedAt = dt.toLocaleString();
     document.getElementById('swiper-wrapper').textContent = null;
@@ -235,6 +257,7 @@ function currentLoginUser(){
       mine:true
     });
     request.execute(function(response){
+      console.log(response);
       loginUserName = response.items[0].snippet.title
       document.getElementById('login-user-name').innerHTML = 'ログイン中のユーザ名:'+loginUserName;
     })
@@ -266,30 +289,6 @@ document.addEventListener('DOMContentLoaded',function(){
   document.getElementById('prev-button').addEventListener('click',commentPrev);
   document.getElementById('logout-button').addEventListener('click',logout);
   });
-document.addEventListener('DOMContentLoaded',function(){
-  document.getElementById('ntya').addEventListener('click',function(){
-        var aa = document.getElementById('ntya').textContent;
-        console.log(aa);
-        document.getElementById('form35').value = aa;
-      });
-
-      document.getElementById('ari').addEventListener('click',function(){
-        var aa = document.getElementById('ari').textContent;
-        console.log(aa);
-        document.getElementById('form35').value = aa;
-      });
-
-      document.getElementById('nan').addEventListener('click',function(){
-        var aa = document.getElementById('nan').textContent;
-        console.log(aa);
-        document.getElementById('form35').value = aa;
-      });
-      document.getElementById('del-button').addEventListener('click',function(){
-        var aa = document.getElementById('nan').textContent;
-        console.log(aa);
-        document.getElementById('form35').value = aa;
-      });
-    });
 
 // document.addEventListener('DOMContentLoaded',function(){
 //   document.getElementById('form35').addEventListener('input',print);
@@ -353,20 +352,18 @@ function logout(){
       var x = new XMLHttpRequest();
       x.open('GET','https://accounts.google.com/o/oauth2/revoke?token=' +tokenResult);
       x.onload = function () {
-
+        console.log(x);
       };
       x.onloadend = function () {
-        // $('#fakeLoader').hide();
+        chrome.tabs.getSelected(null, function(tab) {
+          chrome.tabs.remove(tab.id);
+        });
       };
       x.send();
     //   chrome.tabs.getSelected(window.id, function(tab){
     //   }
     // );
-    chrome.tabs.getSelected(null, function(tab) {
-chrome.tabs.remove(tab.id);
-});
-    }
-);
+  });
 }
 window.onbeforeunload = linkCheck;
 
@@ -465,7 +462,13 @@ function hmsToSecondsOnly(str) {
  */
 
 function templateDelete(id){
-
+  console.log(templateDelete+id);
+  templateList = localStorage.getItem('templateList')
+  templateListJson = JSON.parse(templateList);
+  templateListJson.templateList1.splice(id,1);
+  localStorage.setItem('templateList',JSON.stringify(templateListJson));
+  $('#list-group-template').empty();
+  templateReload();
 }
 /**
  * [templateSet templateをlocalstorageと画面に追加する]
@@ -475,14 +478,19 @@ function templateAdd(word){
   templateList = localStorage.getItem('templateList')
   if(!templateList){
     //初回起動時Json登録
-    templateList = JSON.stringify(templateListJson);
+    templateList = JSON.stringify(templateListJsonfast);
     localStorage.setItem('templateList',templateList);
   }else{
     templateListJson = JSON.parse(templateList);
-    if(templateListJson.templateList1.length < 6){
-      templateListJson.templateList1.push(word);
-      localStorage.setItem('templateList',JSON.stringify(templateListJson));
-      $('#list-group-template').append($('<li class="list-group-item list-group-item-action justify-content-between d-flex flex-row align-items-center"> <a class="navbar-brand2 text-body justify-content-center" href="#">Cras justo odio</a> <span class="badge badge-danger shadow-none border border-danger text-center rounded-top" style="	box-shadow: 0px 0px 0px  black;">☓</span> </li>'));
+    if(templateListJson.templateList1.length < 5){
+      if(document.getElementById('templates-form').value == ''){
+        toastr.warning('入力してください');
+      }else{
+        templateListJson.templateList1.push(word);
+        localStorage.setItem('templateList',JSON.stringify(templateListJson));
+        $('#list-group-template').empty();
+        templateReload(templateListJson.templateList1.length);
+      }
     }else{
       console.log(templateListJson.templateList1.length);
       toastr.warning('テンプレート容量オーバーです。一つ削除してください。');
@@ -492,25 +500,70 @@ function templateAdd(word){
 }
 function templateReload(){
   templateList = localStorage.getItem('templateList');
-  if(templateList)
-  templateListJson = JSON.parse(localStorage.getItem('templateList'));
+  console.log('templateReload');
+  if(!templateList){
+    //初回起動時Json登録
+    templateList = JSON.stringify(templateListJsonfast);
+    localStorage.setItem('templateList',templateList);
+  }else{
+    console.log('templateReload');
+    templateListJson = JSON.parse(templateList);
+    for(var x = 0;x < templateListJson.templateList1.length;x++) {
+      $('#list-group-template').append($('<li '+'id='+'template-list-'+x+' class="list-group-item list-group-item-action justify-content-between d-flex flex-row align-items-center"> <a '+'id='+'template-list-text'+x+' class="navbar-brand2 text-body justify-content-center" href="#">'+templateListJson.templateList1[x]+'</a> <span id="del-button'+x+'" class="badge badge-danger shadow-none border border-danger text-center rounded-top" style="	box-shadow: 0px 0px 0px  black;">☓</span> </li>'));
+    }
+  }
 }
 $(document).ready(function() {
   // $('.list-group').append($('<li class="list-group-item list-group-item-action justify-content-between d-flex flex-row align-items-center"> <a class="navbar-brand2 text-body justify-content-center" href="#">Cras justo odio</a> <span class="badge badge-danger shadow-none border border-danger text-center rounded-top" style="	box-shadow: 0px 0px 0px  black;">☓</span> </li>'))
-    $('.btn btn-info').on('click','',function(){
-      if(templateList.lengtth<6){
-        templateList.push($('#template-form').val());
-        templateReload();
-      }
-    })
     $('.list-group').on('click','#text-listbox',function(){
       console.log('listclick');
     })
-    $('#text-listbox').on('click','#del-button', function(e){
-        e.stopPropagation();
-        $(this).parents('li').remove();
+    $(document).on('click','#del-button',function(e){
+      $(this).parents('li').remove();
+      e.stopPropagation();
+    });
+    $('.input-group').on('click','#template-add-button',function(){
+      console.log(document.getElementById('templates-form').value);
+        templateAdd(document.getElementById('templates-form').value);
     })
-    $('.input-group-append').on('click','#template-add-button',function(){
-      templateAdd();
-    })
+    $(document).on('click','#template-list-0',function(){
+      console.log($('this').text());
+      document.getElementById('form35').value = $('#template-list-text0').text();
+    });
+    $(document).on('click', '#template-list-1', function(){
+      document.getElementById('form35').value = $('#template-list-text1').text();
+    });
+    $(document).on('click', '#template-list-2', function(){
+      document.getElementById('form35').value = $('#template-list-text2').text();
+    });
+    $(document).on('click', '#template-list-3', function(){
+      document.getElementById('form35').value = $('#template-list-text3').text();
+    });
+    $(document).on('click', '#template-list-4', function(){
+      document.getElementById('form35').value = $('#template-list-text4').text();
+    });
+    $(document).on('click','#del-button0',function(){
+      templateDelete(0);
+    });
+    $(document).on('click', '#del-button1', function(){
+      templateDelete(1);
+    });
+    $(document).on('click', '#del-button2', function(){
+      templateDelete(2);
+    });
+    $(document).on('click', '#del-button3', function(){
+      templateDelete(3);
+    });
+    $(document).on('click', '#del-button4', function(){
+      templateDelete(4);
+    });
+    $(document).on('click', '#heart-button', function(){
+      if($(this).hasClass('btn btn-outline-primary active my-1')){
+        $(this).removeClass('btn btn-outline-primary active my-1');
+        $(this).addClass('btn btn-outline-primary my-1');
+      }else{
+        $(this).removeClass('btn btn-outline-primary my-1');
+        $(this).addClass('btn btn-outline-primary active my-1');
+      }
+    });
 });

@@ -300,8 +300,6 @@ document.addEventListener('DOMContentLoaded',function(){
 // }
 
 
-
-
 /**
  * ローディング画面
  */

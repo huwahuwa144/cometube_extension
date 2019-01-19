@@ -10,13 +10,14 @@
   },
   "default_locale": "en",
   "browser_action": {
+    "default_popup": "popup.html",
     "default_title": "YouNise"
   },
   "background": {
     "page": "background.html",
     "persistent": false
   },
-  "content_security_policy": "script-src 'self' https://s.ytimg.com script-src 'self' https://www.youtube.com script-src 'self' https://apis.google.com script-src 'self' https://code.jquery.com script-src 'self' https://cdnjs.cloudflare.com script-src 'self' https://stackpath.bootstrapcdn.com ; object-src 'self' 'sha256-uumPR85Ig/b4KBB+bgRO9mLEx2XgzrFHutT+63rsPYU='",
+  "content_security_policy": "script-src 'self' https://s.ytimg.com script-src 'self' https://www.youtube.com script-src 'self' https://apis.google.com script-src 'self' https://code.jquery.com script-src 'self'  https://cdnjs.cloudflare.com script-src 'self' https://stackpath.bootstrapcdn.com ; object-src 'self' 'sha256-uumPR85Ig/b4KBB+bgRO9mLEx2XgzrFHutT+63rsPYU='",
   "permissions": [
     "webview",
     "identity",
@@ -36,6 +37,7 @@
         "scripts/iframe_api.js",
         "scripts/background.js",
         "scripts/youtuber.js",
+        "scripts/popup.js",
         "scripts/script.js"
       ],
       "run_at": "document_end",

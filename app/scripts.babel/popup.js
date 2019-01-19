@@ -3,6 +3,8 @@
 // if ( url.match(/youtube/)) {
 //
 // }
+
+
 console.log('popup');
 var id;
 var title;
@@ -46,4 +48,24 @@ function startExecute() {
 
 document.addEventListener('DOMContentLoaded',function(){
   document.getElementById('comebtn').addEventListener('click',startExecute);
+});
+
+document.addEventListener('DOMContentLoaded',function(){
+  var animateButton = function(e) {
+
+    e.preventDefault;
+    //reset animation
+    e.target.classList.remove('animate');
+
+    e.target.classList.add('animate');
+    setTimeout(function(){
+      e.target.classList.remove('animate');
+    },700);
+  };
+
+  var bubblyButtons = document.getElementsByClassName("heartbtn2");
+
+  for (var i = 0; i < bubblyButtons.length; i++) {
+    bubblyButtons[i].addEventListener('click', animateButton, false);
+  }
 });

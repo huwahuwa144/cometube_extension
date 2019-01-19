@@ -10,9 +10,12 @@
   <link rel="stylesheet" href="./css/loading.css">
   <link rel="stylesheet" href="./css/toastr.css">
   <script src="https://apis.google.com/js/api.js"></script>
+  <script type="text/javascript" src="scripts/api.js"></script>
+  <script type="text/javascript" src="scripts/iframe_api.js"></script>
   <script type="text/javascript" src="scripts/jquery-1.11.1.min.js"></script>
   <script type="text/javascript" src="scripts/fakeLoader.js"></script>
   <script type="text/javascript" src="scripts/toastr.js"></script>
+  <script type="text/javascript" src="scripts/Sortable.js"></script>
   <script src="./scripts/background.js"></script>
   <script src="./scripts/youtuber.js"></script>
 </head>
@@ -24,18 +27,32 @@
       <p>Now Loading...</p>
     </div>
   </div>
+  <div class="modal" style="">
+    <div class="modal-dialog" role="document">
+      <div class="modal-content">
+        <div class="modal-header">
+          <h5 class="modal-title">Modal title</h5> <button type="button" class="close" data-dismiss="modal"> <span>×</span> </button>
+        </div>
+        <div class="modal-body">
+          <p>Modal body text goes here.</p>
+        </div>
+        <div class="modal-footer"> <button type="button" class="btn btn-primary">Save changes</button> <button type="button" class="btn btn-secondary" data-dismiss="modal">Close</button> </div>
+      </div>
+    </div>
+  </div>
   <div id="wrap">
     <nav class="navbar navbar-expand-md navbar-light">
       <div class="container"> <a class="navbar-brand text-primary" href="#">
           <i class="fa d-inline fa-lg fa-stop-circle"></i>
-          <b id="login-user"> ComeTube</b>
-        </a> <button class="navbar-toggler navbar-toggler-right border-0" type="button" data-toggle="collapse" data-target="#navbar4">
+          <b id="login-user"> ComeTube</b></a><a class="btn btn-outline-danger" href="#" style="" id="logout-button">ログアウト</a>
+        <button class="navbar-toggler navbar-toggler-right border-0" type="button" data-toggle="collapse" data-target="#navbar4">
           <span class="navbar-toggler-icon"></span>
         </button>
       </div>
     </nav>
     <div class="py-5 text-center">
       <div class="container">
+        <div class="row"></div>
         <div class="row" style="">
           <div class="mx-auto col-lg-8" style="">
             <div class="card">
@@ -59,7 +76,7 @@
               <div class="col-md-6"><button type="button" class="btn btn-block my-1 shadow-sm btn-outline-primary" id="next-button">次へ</button></div>
             </div>
             <form>
-              <textarea class="form-control" id="form35" rows="3"　required></textarea>
+              <textarea class="form-control" id="form35" rows="3" 　required=""></textarea>
               <div class="input-group">
                 <div class="input-group-append"> </div>
               </div>
@@ -73,11 +90,18 @@
           <div class="col-md-4" style="">
             <div class="tab-content mt-2">
               <div class="tab-pane fade show active" id="tabone" role="tabpanel">
-                <ul>
-                  <li id ="come"><a id ="ntya" href="#">んちゃあああああす！</a></li>
-                <li id ="come"><a id ="ari" href="#">ありがとうございます！</a></li>
-                <li id ="come"><a id ="nan" href="#">なんやそれｗ</a></li>
-                </ul>
+                <form class="form-inline">
+                  <div class="input-group"> <input type="text" id="templates-form" class="form-control" placeholder="テンプレート文">
+                    <div class="input-group-append"> <button id="template-add-button" class="btn btn-info" type="button">追加</button> </div>
+                  </div>
+                </form>
+                <div id="list-group-template" class="list-group">
+                  <li id="text-listbox" class="list-group-item list-group-item-action justify-content-between d-flex flex-row align-items-center"> <a class="navbar-brand2 text-body justify-content-center" href="#">Cras justo odio</a> <span id="del-button" class="badge badge-danger shadow-none border border-danger text-center rounded-top" style="	box-shadow: 0px 0px 0px  black;">☓</span> </li>
+                </div>
+                <div class="row"></div>
+                <div class="embed-responsive embed-responsive-4by3">
+                  <div id="player"></div>
+                </div>
               </div>
             </div>
           </div>
@@ -85,12 +109,8 @@
       </div>
     </div>
   </div>
-  <script src="./scripts/swiper-setting.js"></script>
   <!-- <script src="https://code.jquery.com/jquery-1.11.1.min.js" integrity="sha384-q8i/X+965DzO0rT7abK41JStQIAqVgRVzpbzo5smXKp4YfRvH+8abtTE1Pi6jizo" crossorigin="anonymous"></script> -->
-  <script src="https://cdnjs.cloudflare.com/ajax/libs/popper.js/1.14.3/umd/popper.min.js" integrity="sha384-ZMP7rVo3mIykV+2+9J3UJ46jBk0WLaUAdn689aCwoqbBJiSnjAK/l8WvCWPIPm49" crossorigin="anonymous"></script>
-  <script src="https://stackpath.bootstrapcdn.com/bootstrap/4.1.3/js/bootstrap.min.js" integrity="sha384-ChfqqxuZUCnJSK3+MXmPNIyE6ZbWh2IMqE241rYiqJxyMiZ6OW/JmZQ5stwEULTy" crossorigin="anonymous"></script>
   <!--  -->
-  <script type="text/javascript" src="scripts/bootstrap.min.js"></script>
   <!-- <script src="./scripts/swiper.js"></script> -->
   <script src="./scripts/client.js"></script>
 </body>

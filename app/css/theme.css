@@ -312,7 +312,7 @@ h1, .h1 {
   font-size: 2.5rem; }
 
 h2, .h2 {
-  font-size: 2rem; }
+  font-size: 1.4rem; }
 
 h3, .h3 {
   font-size: 1.75rem; }
@@ -2858,6 +2858,17 @@ input[type="button"].btn-block {
   .navbar-brand:hover, .navbar-brand:focus {
     text-decoration: none; }
 
+    .navbar-brand2 {
+      display: inline-block;
+      padding-top: 0.3125rem;
+      padding-bottom: 0.3125rem;
+      margin-right: 1.5rem;
+      font-size: 1.0rem;
+      line-height: inherit;
+      white-space: nowrap; }
+      .navbar-brand:hover, .navbar-brand:focus {
+        text-decoration: none; }
+
 .navbar-nav {
   display: flex;
   flex-direction: column;
@@ -3621,7 +3632,7 @@ input[type="button"].btn-block {
   display: flex;
   flex-direction: column;
   padding-left: 0;
-  margin-bottom: 0; }
+  margin-bottom: 10px; }
 
 .list-group-item-action {
   width: 100%;

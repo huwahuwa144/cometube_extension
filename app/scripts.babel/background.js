@@ -28,8 +28,10 @@ function startExecute() {
 
 }
 
-chrome.browserAction.onClicked.addListener(startExecute);
-
+// chrome.browserAction.onClicked.addListener(startExecute);
+chrome.browserAction.onClicked.addListener(function(tab) {
+    chrome.tabs.sendMessage(tab.id, "myAction");
+});
 // function messageSend(tab){
 //   chrome.runtime.sendMessage({videoId:id},
 //     function(response){

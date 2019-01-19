@@ -31,13 +31,13 @@ var templateList2;
 var templateListJson = {
   templateList1:templateList1
 };
-// chrome.runtime.onMessage.addListener(function (request, sender, sendResponse) {
-//   parseItems = [];
-//   console.log(sender);
-//   id = sender.videoId;
-//   var res = 'finish';
-//   sendResponse(res);
-// });
+chrome.runtime.onMessage.addListener(function (request, sender, sendResponse) {
+  parseItems = [];
+  console.log(sender);
+  id = sender.videoId;
+  var res = 'finish';
+  sendResponse(res);
+});
 
 id = localStorage.id;
 title = localStorage.videoTitle;

@@ -9,7 +9,10 @@ var title = '';
 var id;
 
 
-
+chrome.runtime.onMessage.addListener(function (message, sender, sendResponse) {
+    console.log(message);
+    return;
+});
  //ポップアップとログインの表示
 function startExecute() {
   var currentTab = '';

@@ -99,7 +99,7 @@ function getAllComments(json, n, v, t) {
     userName = allComments[0].items[0].snippet.topLevelComment.snippet.authorDisplayName;
     userComment = allComments[0].items[0].snippet.topLevelComment.snippet.textDisplay;
     userPublishedAt = allComments[0].items[0].snippet.topLevelComment.snippet.updatedAt;
-    channelId = allComments[0].items[0].snippet.topLevelComment.snippet.authorChannelId;
+    channelId = allComments[0].items[0].snippet.topLevelComment.snippet.authorChannelId.value;
     dt = new Date(userPublishedAt);
     userPublishedAt = dt.toLocaleString();
     realCommentId = allComments[0].items[0].id;
@@ -183,7 +183,7 @@ function heartSend(){
   if($('#heart-button').hasClass('btn btn-outline-primary active my-1')){
     heartListJson.heartList.push({
       commentCount:commentCountAll,
-      channelId:channelId,
+      channelId:'/channel/'+channelId,
       text:userComment,
       heartSend:true
     });
@@ -192,7 +192,7 @@ function heartSend(){
   }else{
     heartListJson.heartList.push({
       commentCount:commentCountAll,
-      channelId:channelId,
+      channelId:'/channel/'+channelId,
       text:userComment,
       heartSend:false
     });
@@ -205,6 +205,7 @@ function heartSend(){
  * @return {[type]} [description]
  */
 function commentNext(){
+  heartSend();
   document.getElementById('send-click').disabled = '';
   $('textarea').focus();
   commentCounter+=1;
@@ -216,7 +217,8 @@ function commentNext(){
     userComment = allComments[k].items[l].snippet.topLevelComment.snippet.textDisplay;
     userPublishedAt = allComments[k].items[l].snippet.topLevelComment.snippet.updatedAt;
     realCommentId = allComments[k].items[l].id;
-    channelId = allComments[k].items[l].snippet.topLevelComment.snippet.channelId;
+    channelId = allComments[k].items[l].snippet.topLevelComment.snippet.authorChannelId.value;
+    console.log(channelId);
     dt = new Date(userPublishedAt);
     userPublishedAt = dt.toLocaleString();
     document.getElementById('swiper-wrapper').textContent = null;
@@ -229,7 +231,6 @@ function commentNext(){
   console.log(k);
   console.log(l);
   linkCheck();
-  heartSend();
 }
 /**
  * [前のコメントに移動]
@@ -247,7 +248,7 @@ function commentPrev(){
     userComment = allComments[k].items[l].snippet.topLevelComment.snippet.textDisplay;
     userPublishedAt = allComments[k].items[l].snippet.topLevelComment.snippet.updatedAt;
     realCommentId = allComments[k].items[l].id;
-    channelId = allComments[k].items[l].snippet.topLevelComment.snippet.channelId;
+    channelId = allComments[k].items[l].snippet.topLevelComment.snippet.authorChannelId.value;
     dt = new Date(userPublishedAt);
     userPublishedAt = dt.toLocaleString();
     document.getElementById('swiper-wrapper').textContent = null;

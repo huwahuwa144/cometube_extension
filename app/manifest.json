@@ -5,8 +5,8 @@
   "manifest_version": 2,
   "description": "__MSG_appDescription__",
   "icons": {
-    "16": "images/icon-16.png",
-    "128": "images/icon-128.png"
+    "16": "images/ff.png",
+    "128": "images/f.png"
   },
   "default_locale": "en",
   "background":{
@@ -15,7 +15,7 @@
   },
   "browser_action": {
     "default_popup": "popup.html",
-    "default_title": "YouNise"
+    "default_title": "ComeTube"
   },
   "content_security_policy": "script-src 'self' https://s.ytimg.com script-src 'self' https://www.youtube.com script-src 'self' https://apis.google.com script-src 'self' https://code.jquery.com script-src 'self'  https://cdnjs.cloudflare.com script-src 'self' https://stackpath.bootstrapcdn.com ; object-src 'self' 'sha256-uumPR85Ig/b4KBB+bgRO9mLEx2XgzrFHutT+63rsPYU='",
   "permissions": [

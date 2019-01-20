@@ -8,6 +8,7 @@
 console.log('popup');
 var id;
 var title;
+var message = ['myAction'];
 chrome.tabs.getSelected(null, function(tab){
   console.log(tab.url);
   if (!tab.url.indexOf('https://www.youtube.com')){
@@ -46,9 +47,30 @@ function startExecute() {
 
 }
 
+function startHeart(){
+  message.push(localStorage.heartListJson);
+  chrome.tabs.query({
+    active: true,
+    currentWindow: true
+  }, function (tabs) {
+    // ...and send a request for the DOM info...
+    chrome.tabs.sendMessage(
+        tabs[0].id,
+        message,
+        // ...also specifying a callback to be called
+        //    from the receiving end (content script)
+        function(){});
+  });
+
+  console.log('startHeart');
+}
 document.addEventListener('DOMContentLoaded',function(){
   document.getElementById('comebtn').addEventListener('click',startExecute);
 });
+document.addEventListener('DOMContentLoaded',function(){
+  document.getElementById('heartbtn').addEventListener('click',startHeart);
+});
+
 
 document.addEventListener('DOMContentLoaded',function(){
   var animateButton = function(e) {

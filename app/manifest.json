@@ -9,6 +9,10 @@
     "128": "images/icon-128.png"
   },
   "default_locale": "en",
+  "background":{
+    "scripts": ["scripts/popup.js"],
+    "persistent": false
+  },
   "browser_action": {
     "default_popup": "popup.html",
     "default_title": "YouNise"

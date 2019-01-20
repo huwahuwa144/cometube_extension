@@ -37,18 +37,15 @@ var templateListJson;
 var channelId; //heartぶち込むユーザのid
 var userText;//heartぶち込むユーザの本文
 var heartListJson = {
-  heartList:[{
-    channelId:channelId,
-    text:userText
-  }]
+  heartList:[]
 };
-chrome.runtime.onMessage.addListener(function (request, sender, sendResponse) {
-  parseItems = [];
-  console.log(sender);
-  id = sender.videoId;
-  var res = 'finish';
-  sendResponse(res);
-});
+// chrome.runtime.onMessage.addListener(function (request, sender, sendResponse) {
+//   parseItems = [];
+//   console.log(sender);
+//   id = sender.videoId;
+//   var res = 'finish';
+//   sendResponse(res);
+// });
 
 id = localStorage.id;
 title = localStorage.videoTitle;
@@ -102,7 +99,7 @@ function getAllComments(json, n, v, t) {
     userName = allComments[0].items[0].snippet.topLevelComment.snippet.authorDisplayName;
     userComment = allComments[0].items[0].snippet.topLevelComment.snippet.textDisplay;
     userPublishedAt = allComments[0].items[0].snippet.topLevelComment.snippet.updatedAt;
-    channelId = allComments[0].items[0].snippet.topLevelComment.snippet.channelId;
+    channelId = allComments[0].items[0].snippet.topLevelComment.snippet.authorChannelId;
     dt = new Date(userPublishedAt);
     userPublishedAt = dt.toLocaleString();
     realCommentId = allComments[0].items[0].id;
@@ -123,6 +120,9 @@ function getAllComments(json, n, v, t) {
     linkCheck();
     loadPlayer(id,videoSecond);
     templateReload()
+    //heartJson初期化
+    localStorage.heartListJson = JSON.stringify(heartListJson);
+    console.log(localStorage.heartListJson);
     console.log(title);
   }
 }
@@ -170,19 +170,34 @@ function commentSend() {
         toastr.info('送信エラー');
       }else{
         toastr.info('送信しました');
-        if($('#heart-button').hasClass('btn btn-outline-primary active my-1')){
-          heartListJson.heartList.push({
-            channelId:channelId,
-            text:userComment
-          });
-          localStorage.heartListJson = JSON.stringify(heartListJson);
-        }
+        heartSend();
         commentNext();
         document.getElementById('form35').value = '';
       }
       document.getElementById('send-click').disabled = '';
     })
   });
+}
+
+function heartSend(){
+  if($('#heart-button').hasClass('btn btn-outline-primary active my-1')){
+    heartListJson.heartList.push({
+      commentCount:commentCountAll,
+      channelId:channelId,
+      text:userComment,
+      heartSend:true
+    });
+    localStorage.heartListJson = JSON.stringify(heartListJson);
+    console.log(localStorage.heartListJson);
+  }else{
+    heartListJson.heartList.push({
+      commentCount:commentCountAll,
+      channelId:channelId,
+      text:userComment,
+      heartSend:false
+    });
+    localStorage.heartListJson = JSON.stringify(heartListJson);
+  }
 }
 
 /**
@@ -214,6 +229,7 @@ function commentNext(){
   console.log(k);
   console.log(l);
   linkCheck();
+  heartSend();
 }
 /**
  * [前のコメントに移動]
@@ -242,7 +258,6 @@ function commentPrev(){
     commentCounter = 0;
   }
   linkCheck();
-  localStorage.removeItem('templateList');
 }
 
 /**

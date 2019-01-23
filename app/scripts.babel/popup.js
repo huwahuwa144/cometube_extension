@@ -3,7 +3,6 @@
 // if ( url.match(/youtube/)) {
 //
 // }
-
 var colors = new Array(
   [62,35,255],
   [60,255,60],
@@ -25,7 +24,7 @@ var gradientSpeed = 0.002;
 
 function updateGradient()
 {
-
+console.log('gradient');
   if ( $===undefined ) return;
 
 var c0_0 = colors[colorIndices[0]];
@@ -63,7 +62,7 @@ var color2 = "rgb("+r2+","+g2+","+b2+")";
   }
 }
 
-setInterval(updateGradient,10);
+// setInterval(updateGradient,10);
 
 console.log('popup');
 var id;
@@ -101,6 +100,7 @@ function startExecute() {
       title = tab.title;
       localStorage.videoTitle = title;
       localStorage.id = id[1];
+      localStorage.tabid = tab.id;
       chrome.tabs.create({'url': 'reply.html' },tab => {});
     }
   });
@@ -108,6 +108,7 @@ function startExecute() {
 }
 
 function startHeart(){
+  // chrome.tabs.update(localStorage.tabid, {active: true});
   message.push(localStorage.heartListJson);
   chrome.tabs.query({
     active: true,

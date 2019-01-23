@@ -4,20 +4,24 @@ var contents;
 var pageCommentCount;
 var commentCheckCounter = 0;
 var id;
+var id2;
+var obj;
+var i = 0;
 
 chrome.extension.onMessage.addListener(function(request, sender, sendResponse) {
     if (request[0] == 'myAction') {
       if(request[1] != null){
         heartJson = JSON.parse(request[1]);
         console.log(heartJson);
+
         ecommentCount = heartJson.heartList[0].commentCount;
-        startHeartProcess();
+        startHeartProcess()
       }
     }
 });
 
 function startHeartProcess(){
-  id = setInterval('commentCheck()',500);
+  id = setInterval('commentCheck()',1000);
 }
 
 function commentCheck(){
@@ -29,52 +33,33 @@ function commentCheck(){
   if(contents != null){
     pageCommentCount = contents.childElementCount;
   }
-  console.log(ecommentCount+'@'+pageCommentCount);
   if(ecommentCount <= pageCommentCount){
-    console.log(ecommentCount+'コメント数チェック完了'+pageCommentCount);
     clearInterval(id);
+    process();
   }
+  console.log(ecommentCount+'@'+pageCommentCount);
+  // if(ecommentCount <= pageCommentCount){
+  //   console.log(ecommentCount+'コメント数チェック完了'+pageCommentCount);
+  //   clearInterval(id);
+  // }
   if(commentCheckCounter > 120){
     console.log('制限超過');
     clearInterval(id);
   }
   console.log(commentCheckCounter);
   commentCheckCounter+=1;
-  process();
 }
 
 function process(){
   if($('ytd-comment-thread-renderer')){
-    var obj = $('ytd-comment-thread-renderer');
+    obj = $('ytd-comment-thread-renderer');
     console.log(obj.length);
-    console.log(obj.eq(0));
-    console.log(obj.eq(1));
-    console.log(obj.eq(2));
-    for(var i=0;i<obj.length;i++){
-      for(var j=0;j<ecommentCount;j++){
-        console.log(heartJson.heartList[j].text);
-        console.log(obj.eq(i).find('#content-text').text());
-        if(obj.eq(i).find('#content-text').html().indexOf(heartJson.heartList[j].text)){
-          console.log('textTrue');
-          console.log(obj.eq(i).find('#author-text').attr('href'));
-          if(obj.eq(i).find('#author-text').attr('href').indexOf(heartJson.heartList[j].channelId)){
-            console.log('channnelidTrue');
-            var heart = obj.eq(i).find('#unhearted');
-            console.log($(heart).css);
-            if ($(heart).css('display') != 'none') {
-              // 表示されている場合の処理
-              console.log('cssTrue');
-              if(heartJson.heartList[j].heartSend){
-                console.log('heartSendTrue');
-                heart.click();
-              }
-              } else {
-              // 非表示の場合の処理
-            }
-          }
-        }
-      }
-      // console.log(obj.eq(i).find('#content-text').text());
+    console.log(obj);
+    // console.log(obj.eq(0));
+    // console.log(obj.eq(1));
+    // console.log(obj.eq(2));
+    if(ecommentCount <= obj.length){
+      id = setInterval('heartClick()',1000);
     }
   }
 
@@ -86,6 +71,45 @@ function process(){
   //     // 非表示の場合の処理
   //   }
   // }
+}
+
+function heartClick(){
+    for(var j=0;j<ecommentCount;j++){
+      // console.log(heartJson.heartList[j].text);
+      // console.log(obj.eq(i).find('#content-text').text());
+      if(obj.eq(i).find('#author-text').attr('href') == (heartJson.heartList[j].channelId)){
+        // console.log(obj.eq(i).find('#author-text').attr('href'));
+        if(obj.eq(i).find('#content-text').text().replace(/\uFEFF/g,'')==(heartJson.heartList[j].text)){
+          // console.log('channnelidTrue');
+          var heart = obj.eq(i).find('#creator-heart-button');
+          if(!heart){
+
+          }else{
+            // heart.click();
+            if ($(heart).children('#button').attr('aria-label') == 'ハート') {
+              // 表示されている場合の処理
+              // console.log('cssTrue');
+              // console.log(heartJson.heartList[j].heartSend);
+              if(heartJson.heartList[j].heartSend){
+                console.log('heartSendTrue');
+                console.log(obj.eq(i).find('#content-text').text()+','+heartJson.heartList[j].text);
+                heart.click();
+              }
+            } else if($(heart).children('#button').attr('aria-label') == 'ハートを削除'){
+                if(!heartJson.heartList[j].heartSend){
+                  console.log('heartSendFalse');
+                  heart.click();
+                }
+              // 非表示の場合の処理
+            }
+          }
+        }
+      }
+    }
+    i++;
+    if(obj.length < i){
+      clearInterval(id2);
+    }
 }
 
 function test(){

@@ -36,15 +36,18 @@ function commentCheck(){
   if(ecommentCount <= pageCommentCount){
     clearInterval(id);
     process();
+  }else if(ecommentCount <= pageCommentCount+2){
+    process();
   }
   console.log(ecommentCount+'@'+pageCommentCount);
   // if(ecommentCount <= pageCommentCount){
   //   console.log(ecommentCount+'コメント数チェック完了'+pageCommentCount);
   //   clearInterval(id);
   // }
-  if(commentCheckCounter > 120){
+  if(commentCheckCounter > 15){
     console.log('制限超過');
     clearInterval(id);
+    process();
   }
   console.log(commentCheckCounter);
   commentCheckCounter+=1;
@@ -59,7 +62,9 @@ function process(){
     // console.log(obj.eq(1));
     // console.log(obj.eq(2));
     if(ecommentCount <= obj.length){
-      id = setInterval('heartClick()',1000);
+      id2 = setInterval('heartClick()',1000);
+    }else if(ecommentCount <= obj.length+2){
+      id2 = setInterval('heartClick()',1000);
     }
   }
 

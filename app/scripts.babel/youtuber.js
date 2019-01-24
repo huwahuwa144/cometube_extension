@@ -231,6 +231,10 @@ function commentNext(){
   console.log(k);
   console.log(l);
   linkCheck();
+  if($('#heart-button').hasClass('btn btn-outline-primary my-1')){
+    $('#heart-buton').removeClass('btn btn-outline-primary my-1');
+    $('#heart-button').addClass('active btn btn-outline-primary my-1');
+  }
 }
 /**
  * [前のコメントに移動]
@@ -574,12 +578,12 @@ $(document).ready(function() {
       templateDelete(4);
     });
     $(document).on('click', '#heart-button', function(){
-      if($(this).hasClass('btn btn-outline-primary active my-1')){
-        $(this).removeClass('btn btn-outline-primary active my-1');
-        $(this).addClass('btn btn-outline-primary my-1');
+      if($(this).hasClass('active')){
+        $(this).removeClass('active');
+        $(this).addClass('');
       }else{
-        $(this).removeClass('btn btn-outline-primary my-1');
-        $(this).addClass('btn btn-outline-primary active my-1');
+        $(this).removeClass('');
+        $(this).addClass('active');
       }
     });
 });
